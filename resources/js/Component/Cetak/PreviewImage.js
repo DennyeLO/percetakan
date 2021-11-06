@@ -44,7 +44,10 @@ const PreviewImage = () => {
                 <div style={{
                     position: `${list.position}`
                 }}>
-                    <img src={list.contents} style={{ width: `${list.images_width * px}px`, height: `${list.height_height * px}px` }}/>
+                    <img src={list.contents} style={{
+                        width: `${list.images_width * px}px`, 
+                        height: `${list.images_height * px}px`,
+                    }}/>
                 </div>
             )
         }

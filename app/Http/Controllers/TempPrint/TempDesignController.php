@@ -21,7 +21,7 @@ class TempDesignController extends Controller
             'temp_design_texts.border_bottom',
             'temp_design_texts.border_left',
             'temp_design_texts.border_right',
-            'temp_design_texts.padding_top',
+            'temp_design_texts.padding_top as texts_padding_top',
             'temp_design_texts.width as texts_width',
             'temp_design_texts.height as texts_height',
             'temp_design_images.id as images_id', 
@@ -32,7 +32,7 @@ class TempDesignController extends Controller
             'temp_design_images.right',
             'temp_design_images.width as images_width',
             'temp_design_images.height as images_height',
-            'temp_design_images.padding_top',
+            'temp_design_images.padding_top as images_padding_top',
             'temp_design_images.padding_bottom'
         )
         ->get();

@@ -876,14 +876,14 @@ var List = function List() {
       right: list.right,
       width: list.images_width,
       height: list.images_height,
-      padding_top: list.padding_top,
+      padding_top: list.images_padding_top,
       padding_bottom: list.padding_bottom
     });
     setDataText({
       font_size: list.font_size,
       font_weight: list.font_weight,
       text_align: list.text_align,
-      padding_top: list.padding_top,
+      padding_top: list.texts_padding_top,
       width: list.texts_width,
       height: list.texts_height
     });
@@ -1302,7 +1302,7 @@ var PreviewImage = function PreviewImage() {
         src: list.contents,
         style: {
           width: "".concat(list.images_width * px, "px"),
-          height: "".concat(list.height_height * px, "px")
+          height: "".concat(list.images_height * px, "px")
         }
       }));
     }

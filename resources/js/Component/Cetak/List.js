@@ -69,14 +69,15 @@ const List = () => {
         e.preventDefault();
         
         const tempDataText = {...dataText,...dataBorder};
-        const tempDataImage = {...dataText,...dataImage};
+
         try{
             await Axios.put(`/api/print/temp_design/${tempDesignId}`, data);
             if(data.type == "text"){
                 await Axios.put(`/api/print/temp_design_text/${foreignTempDesignId}`,tempDataText)
             }else{
-                await Axios.put(`/api/print/temp_design_image/${foreignTempDesignId}`,tempDataImage)
+                await Axios.put(`/api/print/temp_design_image/${foreignTempDesignId}`,dataImage)
             }
+
             $("#edit").modal("hide");
             dispatch({type: 'refresh', refresh: !refresh});
             add_success();
@@ -156,13 +157,24 @@ const List = () => {
             title: list.title,
             contents: list.contents
         });
+        setDataImage({
+            position: list.position,
+            top: list.top,
+            bottom: list.bottom,
+            left: list.left,
+            right: list.right,
+            width: list.images_width,
+            height: list.images_height,
+            padding_top: list.padding_top,
+            padding_bottom: list.padding_bottom
+        })
         setDataText({
             font_size: list.font_size,
             font_weight: list.font_weight,
             text_align: list.text_align,
             padding_top: list.padding_top,
-            width: list.width,
-            height: list.height
+            width: list.texts_width,
+            height: list.texts_height
         });
         setDataBorder({
             border_top: list.border_top,
@@ -320,11 +332,11 @@ const List = () => {
                                 }
                                 <div className="form-group">
                                     <label>Panjang Gambar</label>
-                                    <input type="number" id="width" name="width" className="form-control" onChange = {handleChangeImage} required/>
+                                    <input type="number" id="width" value={dataImage.width} name="width" className="form-control" onChange = {handleChangeImage} required/>
                                 </div>
                                 <div className="form-group">
                                     <label>Tinggi Gambar</label>
-                                    <input type="number" id="height" name="height" className="form-control" onChange = {handleChangeImage} required/>
+                                    <input type="number" id="height" value={dataImage.height} name="height" className="form-control" onChange = {handleChangeImage} required/>
                                 </div>
                                 <div className="row">
                                     <h4>Padding</h4>

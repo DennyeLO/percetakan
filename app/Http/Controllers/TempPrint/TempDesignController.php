@@ -31,7 +31,7 @@ class TempDesignController extends Controller
             'temp_design_images.left',
             'temp_design_images.right',
             'temp_design_images.width as images_width',
-            'temp_design_images.height as height_height',
+            'temp_design_images.height as images_height',
             'temp_design_images.padding_top',
             'temp_design_images.padding_bottom'
         )

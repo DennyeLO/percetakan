@@ -751,56 +751,55 @@ var List = function List() {
 
   var handleSubmit = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(e) {
-      var tempDataText, tempDataImage;
+      var tempDataText;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               e.preventDefault();
               tempDataText = _objectSpread(_objectSpread({}, dataText), dataBorder);
-              tempDataImage = _objectSpread(_objectSpread({}, dataText), dataImage);
-              _context.prev = 3;
-              _context.next = 6;
+              _context.prev = 2;
+              _context.next = 5;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design/".concat(tempDesignId), data);
 
-            case 6:
+            case 5:
               if (!(data.type == "text")) {
-                _context.next = 11;
+                _context.next = 10;
                 break;
               }
 
-              _context.next = 9;
+              _context.next = 8;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design_text/".concat(foreignTempDesignId), tempDataText);
 
-            case 9:
-              _context.next = 13;
+            case 8:
+              _context.next = 12;
               break;
 
-            case 11:
-              _context.next = 13;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design_image/".concat(foreignTempDesignId), tempDataImage);
+            case 10:
+              _context.next = 12;
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design_image/".concat(foreignTempDesignId), dataImage);
 
-            case 13:
+            case 12:
               jquery__WEBPACK_IMPORTED_MODULE_4___default()("#edit").modal("hide");
               dispatch({
                 type: 'refresh',
                 refresh: !refresh
               });
               Object(_Utils_Notification__WEBPACK_IMPORTED_MODULE_5__["add_success"])();
-              _context.next = 21;
+              _context.next = 20;
               break;
 
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](3);
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](2);
               Object(_Utils_Notification__WEBPACK_IMPORTED_MODULE_5__["add_error"])();
 
-            case 21:
+            case 20:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[3, 18]]);
+      }, _callee, null, [[2, 17]]);
     }));
 
     return function handleSubmit(_x) {
@@ -869,13 +868,24 @@ var List = function List() {
       title: list.title,
       contents: list.contents
     });
+    setDataImage({
+      position: list.position,
+      top: list.top,
+      bottom: list.bottom,
+      left: list.left,
+      right: list.right,
+      width: list.images_width,
+      height: list.images_height,
+      padding_top: list.padding_top,
+      padding_bottom: list.padding_bottom
+    });
     setDataText({
       font_size: list.font_size,
       font_weight: list.font_weight,
       text_align: list.text_align,
       padding_top: list.padding_top,
-      width: list.width,
-      height: list.height
+      width: list.texts_width,
+      height: list.texts_height
     });
     setDataBorder({
       border_top: list.border_top,
@@ -1163,6 +1173,7 @@ var List = function List() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Panjang Gambar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "number",
     id: "width",
+    value: dataImage.width,
     name: "width",
     className: "form-control",
     onChange: handleChangeImage,
@@ -1172,6 +1183,7 @@ var List = function List() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Tinggi Gambar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "number",
     id: "height",
+    value: dataImage.height,
     name: "height",
     className: "form-control",
     onChange: handleChangeImage,

@@ -37,4 +37,4 @@ Route::post('/print/temp_design_image/{temp_designs_id}', [TempDesignImageContro
 
 Route::put('/print/temp_design/{temp_design}', [TempDesignController::class, 'update'])->name('api.temp_design.update');
 Route::put('/print/temp_design_text/{temp_design_text}', [TempDesignTextController::class, 'update'])->name('api.temp_design_text.update');
-Route::put('/print/temp_design_image/{temp_design_text}', [TempDesignImageController::class, 'update'])->name('api.temp_design_image.update');
+Route::put('/print/temp_design_image/{temp_design_image}', [TempDesignImageController::class, 'update'])->name('api.temp_design_image.update');

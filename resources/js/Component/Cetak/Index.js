@@ -182,7 +182,7 @@ const Index = (props) => {
                                     </div>
                                     <div className="form-group">
                                         <label for="font_style">Tulisan Miring</label>
-                                        <select class="form-select" value={dataText.font_style} id="font_style" name="font_style" onChange = {handleChangeText}>
+                                        <select class="form-select" id="font_style" name="font_style" onChange = {handleChangeText}>
                                             <option selected value="">Tidak</option>
                                             <option value="italic">Ya</option>
                                         </select>
@@ -242,7 +242,7 @@ const Index = (props) => {
                                     </div>
                                     <div className="form-group">
                                         <label for="position">Posisi Bebas</label>
-                                        <select class="form-select" value={dataImage.position} id="position" name="position" onChange = {handleChangeImage}>
+                                        <select class="form-select" id="position" name="position" onChange = {handleChangeImage}>
                                             <option selected value="">Tidak</option>
                                             <option value="absolute">Ya</option>
                                         </select>

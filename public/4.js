@@ -718,48 +718,49 @@ var List = function List() {
             case 0:
               e.preventDefault();
               tempDataText = _objectSpread(_objectSpread({}, dataText), dataBorder);
-              _context.prev = 2;
-              _context.next = 5;
+              console.log(id);
+              _context.prev = 3;
+              _context.next = 6;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design/".concat(id), data);
 
-            case 5:
+            case 6:
               if (!(data.type == "text")) {
-                _context.next = 10;
+                _context.next = 11;
                 break;
               }
 
-              _context.next = 8;
+              _context.next = 9;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design_text/".concat(id), tempDataText);
 
-            case 8:
-              _context.next = 12;
+            case 9:
+              _context.next = 13;
               break;
 
-            case 10:
-              _context.next = 12;
+            case 11:
+              _context.next = 13;
               return axios__WEBPACK_IMPORTED_MODULE_3___default.a.put("/api/print/temp_design_image/".concat(id), tempDataText);
 
-            case 12:
+            case 13:
               jquery__WEBPACK_IMPORTED_MODULE_4___default()("#edit").modal("hide");
               dispatch({
                 type: 'refresh',
                 refresh: !refresh
               });
               add_success();
-              _context.next = 20;
+              _context.next = 21;
               break;
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](2);
+            case 18:
+              _context.prev = 18;
+              _context.t0 = _context["catch"](3);
               add_error();
 
-            case 20:
+            case 21:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[2, 17]]);
+      }, _callee, null, [[3, 18]]);
     }));
 
     return function handleSubmit(_x) {

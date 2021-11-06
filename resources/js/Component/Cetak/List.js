@@ -2,13 +2,15 @@ import React, {useEffect, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import Axios from 'axios';
 import $ from 'jquery';
-import { list } from 'postcss';
+import { add_error, add_success, delete_error, get_error, update_error } from '../Utils/Notification';
+import noImage from '../../public/image/no_image.png'
 
 const List = () => {
     const dispatch = useDispatch();
     const refresh = useSelector(state => state.refresh);
     const [result,setResult] = useState([]);
-    const [id, setId] = useState('');
+    const [tempDesignId, setTempDesignId] = useState('');
+    const [foreignTempDesignId, setForeignTempDesignId] = useState('');
 
     useEffect(() => {        
         Axios.get('/api/print/temp_design')
@@ -22,6 +24,11 @@ const List = () => {
             
         }
     }, [refresh]);
+
+    const [dataBase64, setDataBase64] = useState({
+        file: null,
+        base64URL: ""
+    });
 
     const [dataBorder, setDataBorder] = useState({
         border_top: false,
@@ -46,16 +53,29 @@ const List = () => {
         height: ''
     });
 
+    const [dataImage, setDataImage] = useState({
+        position: '',
+        top: '',
+        bottom: '',
+        left: '',
+        right: '',
+        width: '',
+        height: '',
+        padding_top: '',
+        padding_bottom: ''
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         const tempDataText = {...dataText,...dataBorder};
-
+        const tempDataImage = {...dataText,...dataImage};
         try{
-            await Axios.put(`/api/print/temp_design/${id}`, data);
+            await Axios.put(`/api/print/temp_design/${tempDesignId}`, data);
             if(data.type == "text"){
-                await Axios.put(`/api/print/temp_design_text/${id}`,tempDataText)
+                await Axios.put(`/api/print/temp_design_text/${foreignTempDesignId}`,tempDataText)
             }else{
-                await Axios.put(`/api/print/temp_design_image/${id}`,tempDataText)
+                await Axios.put(`/api/print/temp_design_image/${foreignTempDesignId}`,tempDataImage)
             }
             $("#edit").modal("hide");
             dispatch({type: 'refresh', refresh: !refresh});
@@ -77,8 +97,60 @@ const List = () => {
         setDataBorder({...dataBorder, [e.target.name]: e.target.checked});
     }
 
+    const handleChangeImage = (e) => {
+        setDataImage({...dataImage, [e.target.name]: e.target.value});
+    }
+
+    const getBase64 = file => {
+        return new Promise(resolve => {
+          let fileInfo;
+          let baseURL = "";
+          // Make new FileReader
+          let reader = new FileReader();
+    
+          // Convert the file to base64 text
+          reader.readAsDataURL(file);
+    
+          // on reader load somthing...
+          reader.onload = () => {
+            // Make a fileInfo Object
+            baseURL = reader.result;
+            resolve(baseURL);
+          };
+        });
+    };
+
+    const handleFileInputChange = e => {
+        let { file } = dataBase64;
+    
+        file = e.target.files[0];
+    
+        getBase64(file)
+          .then(result => {
+            file["base64"] = result;
+            setDataBase64({
+                file,
+                base64URL: result
+            });
+            setData({
+                ...data,
+                contents: result
+            })
+          })
+          .catch(err => {
+            console.log(err);
+          });
+    };
+
+
     const showModal = (list) => {
-        setId(list.id);
+        setTempDesignId(list.id);
+        setForeignTempDesignId(list.texts_id ? list.texts_id : list.images_id);
+
+        setDataBase64({
+            base64URL: list.contents
+        });
+
         setData({
             type: list.type,
             title: list.title,
@@ -121,7 +193,7 @@ const List = () => {
                         <div class="modal-body">
                             <div className="form-group">
                                 <label for="type">Jenis</label>
-                                <select class="form-select" id="type" name="type" onChange = {handleChange}>
+                                <select class="form-select" value={data.type} id="type" name="type" onChange = {handleChange}>
                                     <option value="text" selected>Tulisan</option>
                                     <option value="image">Gambar</option>
                                 </select>
@@ -132,10 +204,13 @@ const List = () => {
                                 <input type="text" value={data.title} id="title" name="title" className="form-control" onChange = {handleChange}/>
                             </div>
 
-                            <div className="form-group">
-                                <label>Isi</label>
-                                <input type="text" value={data.contents} id="contents" name="contents" className="form-control" onChange = {handleChange}/>
-                            </div>
+                            {
+                                data.type == "text" ? 
+                                <div className="form-group">
+                                    <label>Isi</label>
+                                    <input type="text" id="contents" value={data.contents} name="contents" className="form-control" onChange = {handleChange}/>
+                                </div> : null
+                            }
 
                             {
                                 data.type == "text" ? 
@@ -203,12 +278,65 @@ const List = () => {
                                             <input type="number" value={dataText.padding_top} className="form-control" id="padding_top" name="padding_top" onChange={handleChangeText}/>
                                         </div>
                                     </div>
-                                </>:<>
-                                
-                                    <div className="form-group">
-                                        <label>Gambar</label>
-                                        <input type="file" className="form-control"/>
+                                </>:
+                                <>
+                                <div className="text-center">
+                                    <img src = {dataBase64.base64URL ? dataBase64.base64URL : noImage} style={{ width: '100%', height: '100%' }}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Gambar</label>
+                                    <input type="file" className="form-control" name="file" onChange={(e) => handleFileInputChange(e)}/>
+                                </div>
+                                <div className="form-group">
+                                    <label for="position">Posisi Bebas</label>
+                                    <select class="form-select" id="position" name="position" onChange = {handleChangeImage}>
+                                        <option selected value="">Tidak</option>
+                                        <option value="absolute">Ya</option>
+                                    </select>
+                                </div>
+                                {/* Position Absolute */}
+                                {
+                                    dataImage.position == "absolute" ? <>
+                                        <div className="row">
+                                            <h4>Posisi</h4>
+                                            <div className="form-group col-3">
+                                                <label for="top">Atas</label>
+                                                <input type="number" className="form-control" id="top" name="top" onChange={handleChangeImage}/>
+                                            </div>
+                                            <div className="form-group col-3">
+                                                <label for="bottom">Bawah</label>
+                                                <input type="number" className="form-control" id="bottom" name="bottom" onChange={handleChangeImage}/>
+                                            </div>
+                                            <div className="form-group col-3">
+                                                <label for="left">Kiri</label>
+                                                <input type="number" className="form-control" id="left" name="left" onChange={handleChangeImage}/>
+                                            </div>
+                                            <div className="form-group col-3">
+                                                <label for="right">Kanan</label>
+                                                <input type="number" className="form-control" id="right" name="right" onChange={handleChangeImage}/>
+                                            </div>
+                                        </div>
+                                    </> : null
+                                }
+                                <div className="form-group">
+                                    <label>Panjang Gambar</label>
+                                    <input type="number" id="width" name="width" className="form-control" onChange = {handleChangeImage} required/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Tinggi Gambar</label>
+                                    <input type="number" id="height" name="height" className="form-control" onChange = {handleChangeImage} required/>
+                                </div>
+                                <div className="row">
+                                    <h4>Padding</h4>
+                                    <div className="form-group col-3">
+                                        <label for="padding_top">Atas</label>
+                                        <input type="number" className="form-control" id="padding_top" name="padding_top" onChange={handleChangeImage}/>
                                     </div>
+                                    <div className="form-group col-3">
+                                        <label for="padding_bottom">Bawah</label>
+                                        <input type="number" className="form-control" id="padding_bottom" name="padding_bottom" onChange={handleChangeImage}/>
+                                    </div>
+                                </div>
                                 </>
                             }
                         </div>

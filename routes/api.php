@@ -31,7 +31,10 @@ Route::delete('/voucher/delete/{voucher}', [MasterVoucherController::class, 'del
 
 Route::get('/print/temp_design', [TempDesignController::class, 'index'])->name('api.temp_design.index');
 Route::post('/print/temp_design', [TempDesignController::class, 'store'])->name('api.temp_design.store');
+
 Route::post('/print/temp_design_text/{temp_designs_id}', [TempDesignTextController::class, 'store'])->name('api.temp_design_text.store');
 Route::post('/print/temp_design_image/{temp_designs_id}', [TempDesignImageController::class, 'store'])->name('api.temp_design_image.store');
+
 Route::put('/print/temp_design/{temp_design}', [TempDesignController::class, 'update'])->name('api.temp_design.update');
 Route::put('/print/temp_design_text/{temp_design_text}', [TempDesignTextController::class, 'update'])->name('api.temp_design_text.update');
+Route::put('/print/temp_design_image/{temp_design_text}', [TempDesignImageController::class, 'update'])->name('api.temp_design_image.update');

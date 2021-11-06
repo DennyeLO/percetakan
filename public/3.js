@@ -827,7 +827,7 @@ var FormVoucher = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy
   return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(6)]).then(__webpack_require__.bind(null, /*! ../component/Master/Voucher/Form */ "./resources/js/component/Master/Voucher/Form.js"));
 });
 var PrintVoucher = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(function () {
-  return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(2), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ../component/Cetak/Index */ "./resources/js/component/Cetak/Index.js"));
+  return Promise.all(/*! import() */[__webpack_require__.e(1), __webpack_require__.e(2)]).then(__webpack_require__.bind(null, /*! ../component/Cetak/Index */ "./resources/js/component/Cetak/Index.js"));
 });
 var routes = [{
   path: '/',

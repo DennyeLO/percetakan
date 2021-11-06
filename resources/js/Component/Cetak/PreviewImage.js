@@ -20,17 +20,16 @@ const PreviewImage = () => {
     }, [refresh]);
 
     const viewData = data.length > 0 ? data.map((list,index) => {
-        console.log(list)
         var px = 37.79527559055;
-
+        console.log(list)
         if(list.type == "text"){
             return (
                 <div style={{
                     textAlign: `${list.text_align}`,
                     fontWeight: `${list.font_weight}`,
                     fontSize: `${list.font_size}px`,
-                    width: `${list.width * px}px`,
-                    height: `${list.height * px}px`,
+                    width: `${list.texts_width * px}px`,
+                    height: `${list.texts_height * px}px`,
                     borderTop: list.border_top ? `1px solid black` : null,
                     borderBottom: list.border_bottom ? `1px solid black` : null,
                     borderLeft: list.border_left ? `1px solid black` : null,
@@ -45,15 +44,15 @@ const PreviewImage = () => {
                 <div style={{
                     position: `${list.position}`
                 }}>
-                    <img src={list.contents} style={{ width: `${list.width * px}px`, height: `${list.height * px}px` }}/>
+                    <img src={list.contents} style={{ width: `${list.images_width * px}px`, height: `${list.height_height * px}px` }}/>
                 </div>
             )
         }
     }):null;
 
     return (
-        <div className="container-fluid py-5 row">
-            <div className="col-6 mx-auto position-relative">
+        <div className="container-fluid py-5 w-50 mx-auto px-0">
+            <div className="position-relative">
                 {viewData}
             </div>
         </div>

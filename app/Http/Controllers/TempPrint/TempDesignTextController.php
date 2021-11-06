@@ -27,10 +27,10 @@ class TempDesignTextController extends Controller
     }
 
     public function update(Request $request, TempDesignText $temp_design_text){
-        $this->validate($request,[
-            'width' => 'required',
-            'height' => 'required'
-		]);
+        // $this->validate($request,[
+        //     'width' => 'required',
+        //     'height' => 'required'
+		// ]);
 
         $temp_design_text->fill($request->all());
         $temp_design_text->save();

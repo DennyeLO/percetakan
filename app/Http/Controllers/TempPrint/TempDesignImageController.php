@@ -27,10 +27,11 @@ class TempDesignImageController extends Controller
     }
 
     public function update(Request $request, TempDesignImage $temp_design_image){
-        $this->validate($request,[
-            'width' => 'required',
-            'height' => 'required'
-		]);
+        // $this->validate($request,[
+        //     'width' => 'required',
+        //     'height' => 'required'
+		// ]);
+        dd($temp_design_image);
 
         $temp_design_image->fill($request->all());
         $temp_design_image->save();
